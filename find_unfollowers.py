@@ -25,5 +25,8 @@ followers_links = extract_hrefs(followers_data)
 unique_following_links = following_links - followers_links
 
 # Print the results
+print(f'Your followers: {len(followers_links)}')
+print(f'Your subscriptions: {len(following_links)}')
+print(f'You are not mutually subscribed: {len(unique_following_links)}')
 for link in unique_following_links:
     print(link)

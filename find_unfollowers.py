@@ -8,25 +8,31 @@ with open('data/followers_1.json', 'r') as f:
     followers_data = json.load(f)
 
 
-# Function to extract hrefs from the provided data structure
-def extract_hrefs(data):
-    hrefs = set()
+# Function to extract usernames from the provided data structure
+def extract_usernames_following(data):
+    usernames = set()
+    for item in data:
+        usernames.add(item['title'])
+    return usernames
+
+def extract_usernames_followers(data):
+    usernames = set()
     for item in data:
         for string_list_item in item['string_list_data']:
-            hrefs.add(string_list_item['href'])
-    return hrefs
+            usernames.add(string_list_item['value'])
+    return usernames
 
 
-# Extract the href values
-following_links = extract_hrefs(following_data)
-followers_links = extract_hrefs(followers_data)
+# Extract the usernames
+following_usernames = extract_usernames_following(following_data)
+followers_usernames = extract_usernames_followers(followers_data)
 
-# Find links that are in following but not in followers
-unique_following_links = following_links - followers_links
+# Find usernames that are in following but not in followers
+unique_following_usernames = following_usernames - followers_usernames
 
 # Print the results
-print(f'Your followers: {len(followers_links)}')
-print(f'Your subscriptions: {len(following_links)}')
-print(f'You are not mutually subscribed: {len(unique_following_links)}')
-for link in unique_following_links:
-    print(link)
+print(f'Your followers: {len(followers_usernames)}')
+print(f'Your subscriptions: {len(following_usernames)}')
+print(f'You are not mutually subscribed: {len(unique_following_usernames)}')
+for username in unique_following_usernames:
+    print(f'https://www.instagram.com/{username}')
